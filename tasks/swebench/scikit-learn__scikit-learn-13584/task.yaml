@@ -1,0 +1,12 @@
+id: scikit-learn__scikit-learn-13584
+task_file: task.md
+repo: ''
+test_command: if [ -f /opt/miniconda3/etc/profile.d/conda.sh ]; then source /opt/miniconda3/etc/profile.d/conda.sh
+  && conda activate testbed; fi && python -c "import base64,json,pytest,sys; ids=json.loads(base64.b64decode('WyJza2xlYXJuL3V0aWxzL3Rlc3RzL3Rlc3RfcHByaW50LnB5Ojp0ZXN0X2NoYW5nZWRfb25seSIsICJza2xlYXJuL3V0aWxzL3Rlc3RzL3Rlc3RfcHByaW50LnB5Ojp0ZXN0X3BpcGVsaW5lIiwgInNrbGVhcm4vdXRpbHMvdGVzdHMvdGVzdF9wcHJpbnQucHk6OnRlc3RfZGVlcGx5X25lc3RlZCIsICJza2xlYXJuL3V0aWxzL3Rlc3RzL3Rlc3RfcHByaW50LnB5Ojp0ZXN0X2dyaWRzZWFyY2giLCAic2tsZWFybi91dGlscy90ZXN0cy90ZXN0X3BwcmludC5weTo6dGVzdF9ncmlkc2VhcmNoX3BpcGVsaW5lIiwgInNrbGVhcm4vdXRpbHMvdGVzdHMvdGVzdF9wcHJpbnQucHk6OnRlc3Rfbl9tYXhfZWxlbWVudHNfdG9fc2hvdyIsICJza2xlYXJuL3V0aWxzL3Rlc3RzL3Rlc3RfcHByaW50LnB5Ojp0ZXN0X2Jhc2ljIiwgInNrbGVhcm4vdXRpbHMvdGVzdHMvdGVzdF9wcHJpbnQucHk6OnRlc3RfbGVuZ3RoX2NvbnN0cmFpbnQiLCAic2tsZWFybi91dGlscy90ZXN0cy90ZXN0X3BwcmludC5weTo6dGVzdF9idWlsdGluX3ByZXR0eXByaW50ZXIiXQ==').decode());
+  sys.exit(pytest.main(['-q','-rA',*ids]))"
+setup_command: if [ -f /opt/miniconda3/etc/profile.d/conda.sh ]; then source /opt/miniconda3/etc/profile.d/conda.sh
+  && conda activate testbed; fi && git apply -v /rrl/test.patch
+image: swebench/sweb.eval.x86_64.scikit-learn_1776_scikit-learn-13584:latest
+timeout: 900
+workdir: /testbed
+mount_repo: false

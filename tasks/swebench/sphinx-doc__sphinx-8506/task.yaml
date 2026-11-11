@@ -1,0 +1,12 @@
+id: sphinx-doc__sphinx-8506
+task_file: task.md
+repo: ''
+test_command: if [ -f /opt/miniconda3/etc/profile.d/conda.sh ]; then source /opt/miniconda3/etc/profile.d/conda.sh
+  && conda activate testbed; fi && python -c "import base64,json,pytest,sys; ids=json.loads(base64.b64decode('WyJ0ZXN0cy90ZXN0X2RvbWFpbl9zdGQucHk6OnRlc3RfY21kX29wdGlvbl9zdGFydGluZ193aXRoX2JyYWNrZXQiLCAidGVzdHMvdGVzdF9kb21haW5fc3RkLnB5Ojp0ZXN0X3Byb2Nlc3NfZG9jX2hhbmRsZV9maWd1cmVfY2FwdGlvbiIsICJ0ZXN0cy90ZXN0X2RvbWFpbl9zdGQucHk6OnRlc3RfcHJvY2Vzc19kb2NfaGFuZGxlX3RhYmxlX3RpdGxlIiwgInRlc3RzL3Rlc3RfZG9tYWluX3N0ZC5weTo6dGVzdF9nZXRfZnVsbF9xdWFsaWZpZWRfbmFtZSIsICJ0ZXN0cy90ZXN0X2RvbWFpbl9zdGQucHk6OnRlc3RfY21kX29wdGlvbl93aXRoX29wdGlvbmFsX3ZhbHVlIiwgInRlc3RzL3Rlc3RfZG9tYWluX3N0ZC5weTo6dGVzdF9nbG9zc2FyeSIsICJ0ZXN0cy90ZXN0X2RvbWFpbl9zdGQucHk6OnRlc3RfZ2xvc3Nhcnlfd2FybmluZyIsICJ0ZXN0cy90ZXN0X2RvbWFpbl9zdGQucHk6OnRlc3RfZ2xvc3NhcnlfY29tbWVudCIsICJ0ZXN0cy90ZXN0X2RvbWFpbl9zdGQucHk6OnRlc3RfZ2xvc3NhcnlfY29tbWVudDIiLCAidGVzdHMvdGVzdF9kb21haW5fc3RkLnB5Ojp0ZXN0X2dsb3NzYXJ5X3NvcnRlZCIsICJ0ZXN0cy90ZXN0X2RvbWFpbl9zdGQucHk6OnRlc3RfZ2xvc3NhcnlfYWxwaGFudW1lcmljIiwgInRlc3RzL3Rlc3RfZG9tYWluX3N0ZC5weTo6dGVzdF9nbG9zc2FyeV9jb25mbGljdGVkX2xhYmVscyIsICJ0ZXN0cy90ZXN0X2RvbWFpbl9zdGQucHk6OnRlc3RfY21kb3B0aW9uIiwgInRlc3RzL3Rlc3RfZG9tYWluX3N0ZC5weTo6dGVzdF9tdWx0aXBsZV9jbWRvcHRpb25zIiwgInRlc3RzL3Rlc3RfZG9tYWluX3N0ZC5weTo6dGVzdF9kaXNhYmxlZF9kb2NyZWYiXQ==').decode());
+  sys.exit(pytest.main(['-q','-rA',*ids]))"
+setup_command: if [ -f /opt/miniconda3/etc/profile.d/conda.sh ]; then source /opt/miniconda3/etc/profile.d/conda.sh
+  && conda activate testbed; fi && git apply -v /rrl/test.patch
+image: swebench/sweb.eval.x86_64.sphinx-doc_1776_sphinx-8506:latest
+timeout: 900
+workdir: /testbed
+mount_repo: false

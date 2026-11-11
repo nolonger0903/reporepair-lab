@@ -1,0 +1,12 @@
+id: pylint-dev__pylint-5859
+task_file: task.md
+repo: ''
+test_command: if [ -f /opt/miniconda3/etc/profile.d/conda.sh ]; then source /opt/miniconda3/etc/profile.d/conda.sh
+  && conda activate testbed; fi && python -c "import base64,json,pytest,sys; ids=json.loads(base64.b64decode('WyJ0ZXN0cy9jaGVja2Vycy91bml0dGVzdF9taXNjLnB5OjpUZXN0Rml4bWU6OnRlc3Rfbm9uX2FscGhhbnVtZXJpY19jb2RldGFnIiwgInRlc3RzL2NoZWNrZXJzL3VuaXR0ZXN0X21pc2MucHk6OlRlc3RGaXhtZTo6dGVzdF9maXhtZV93aXRoX21lc3NhZ2UiLCAidGVzdHMvY2hlY2tlcnMvdW5pdHRlc3RfbWlzYy5weTo6VGVzdEZpeG1lOjp0ZXN0X3RvZG9fd2l0aG91dF9tZXNzYWdlIiwgInRlc3RzL2NoZWNrZXJzL3VuaXR0ZXN0X21pc2MucHk6OlRlc3RGaXhtZTo6dGVzdF94eHhfd2l0aG91dF9zcGFjZSIsICJ0ZXN0cy9jaGVja2Vycy91bml0dGVzdF9taXNjLnB5OjpUZXN0Rml4bWU6OnRlc3RfeHh4X21pZGRsZSIsICJ0ZXN0cy9jaGVja2Vycy91bml0dGVzdF9taXNjLnB5OjpUZXN0Rml4bWU6OnRlc3Rfd2l0aG91dF9zcGFjZV9maXhtZSIsICJ0ZXN0cy9jaGVja2Vycy91bml0dGVzdF9taXNjLnB5OjpUZXN0Rml4bWU6OnRlc3RfYWJzZW50X2NvZGV0YWciLCAidGVzdHMvY2hlY2tlcnMvdW5pdHRlc3RfbWlzYy5weTo6VGVzdEZpeG1lOjp0ZXN0X290aGVyX3ByZXNlbnRfY29kZXRhZyIsICJ0ZXN0cy9jaGVja2Vycy91bml0dGVzdF9taXNjLnB5OjpUZXN0Rml4bWU6OnRlc3RfaXNzdWVfMjMyMV9zaG91bGRfbm90X3RyaWdnZXIiLCAidGVzdHMvY2hlY2tlcnMvdW5pdHRlc3RfbWlzYy5weTo6VGVzdEZpeG1lOjp0ZXN0X2lzc3VlXzIzMjFfc2hvdWxkX3RyaWdnZXIiLCAidGVzdHMvY2hlY2tlcnMvdW5pdHRlc3RfbWlzYy5weTo6VGVzdEZpeG1lOjp0ZXN0X2RvbnRfdHJpZ2dlcl9vbl90b2RvaXN0Il0=').decode());
+  sys.exit(pytest.main(['-q','-rA',*ids]))"
+setup_command: if [ -f /opt/miniconda3/etc/profile.d/conda.sh ]; then source /opt/miniconda3/etc/profile.d/conda.sh
+  && conda activate testbed; fi && git apply -v /rrl/test.patch
+image: swebench/sweb.eval.x86_64.pylint-dev_1776_pylint-5859:latest
+timeout: 900
+workdir: /testbed
+mount_repo: false

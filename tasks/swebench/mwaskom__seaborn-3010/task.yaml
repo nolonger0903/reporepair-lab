@@ -1,0 +1,12 @@
+id: mwaskom__seaborn-3010
+task_file: task.md
+repo: ''
+test_command: if [ -f /opt/miniconda3/etc/profile.d/conda.sh ]; then source /opt/miniconda3/etc/profile.d/conda.sh
+  && conda activate testbed; fi && python -c "import base64,json,pytest,sys; ids=json.loads(base64.b64decode('WyJ0ZXN0cy9fc3RhdHMvdGVzdF9yZWdyZXNzaW9uLnB5OjpUZXN0UG9seUZpdDo6dGVzdF9taXNzaW5nX2RhdGEiLCAidGVzdHMvX3N0YXRzL3Rlc3RfcmVncmVzc2lvbi5weTo6VGVzdFBvbHlGaXQ6OnRlc3Rfbm9fZ3JvdXBlciIsICJ0ZXN0cy9fc3RhdHMvdGVzdF9yZWdyZXNzaW9uLnB5OjpUZXN0UG9seUZpdDo6dGVzdF9vbmVfZ3JvdXBlciJd').decode());
+  sys.exit(pytest.main(['-q','-rA',*ids]))"
+setup_command: if [ -f /opt/miniconda3/etc/profile.d/conda.sh ]; then source /opt/miniconda3/etc/profile.d/conda.sh
+  && conda activate testbed; fi && git apply -v /rrl/test.patch
+image: swebench/sweb.eval.x86_64.mwaskom_1776_seaborn-3010:latest
+timeout: 900
+workdir: /testbed
+mount_repo: false

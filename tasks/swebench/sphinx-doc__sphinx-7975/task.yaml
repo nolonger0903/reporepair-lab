@@ -1,0 +1,12 @@
+id: sphinx-doc__sphinx-7975
+task_file: task.md
+repo: ''
+test_command: if [ -f /opt/miniconda3/etc/profile.d/conda.sh ]; then source /opt/miniconda3/etc/profile.d/conda.sh
+  && conda activate testbed; fi && python -c "import base64,json,pytest,sys; ids=json.loads(base64.b64decode('WyJ0ZXN0cy90ZXN0X2Vudmlyb25tZW50X2luZGV4ZW50cmllcy5weTo6dGVzdF9jcmVhdGVfc2luZ2xlX2luZGV4IiwgInRlc3RzL3Rlc3RfZW52aXJvbm1lbnRfaW5kZXhlbnRyaWVzLnB5Ojp0ZXN0X2NyZWF0ZV9wYWlyX2luZGV4IiwgInRlc3RzL3Rlc3RfZW52aXJvbm1lbnRfaW5kZXhlbnRyaWVzLnB5Ojp0ZXN0X2NyZWF0ZV90cmlwbGVfaW5kZXgiLCAidGVzdHMvdGVzdF9lbnZpcm9ubWVudF9pbmRleGVudHJpZXMucHk6OnRlc3RfY3JlYXRlX3NlZV9pbmRleCIsICJ0ZXN0cy90ZXN0X2Vudmlyb25tZW50X2luZGV4ZW50cmllcy5weTo6dGVzdF9jcmVhdGVfc2VlYWxzb19pbmRleCIsICJ0ZXN0cy90ZXN0X2Vudmlyb25tZW50X2luZGV4ZW50cmllcy5weTo6dGVzdF9jcmVhdGVfbWFpbl9pbmRleCIsICJ0ZXN0cy90ZXN0X2Vudmlyb25tZW50X2luZGV4ZW50cmllcy5weTo6dGVzdF9jcmVhdGVfaW5kZXhfd2l0aF9uYW1lIiwgInRlc3RzL3Rlc3RfZW52aXJvbm1lbnRfaW5kZXhlbnRyaWVzLnB5Ojp0ZXN0X2NyZWF0ZV9pbmRleF9ieV9rZXkiXQ==').decode());
+  sys.exit(pytest.main(['-q','-rA',*ids]))"
+setup_command: if [ -f /opt/miniconda3/etc/profile.d/conda.sh ]; then source /opt/miniconda3/etc/profile.d/conda.sh
+  && conda activate testbed; fi && git apply -v /rrl/test.patch
+image: swebench/sweb.eval.x86_64.sphinx-doc_1776_sphinx-7975:latest
+timeout: 900
+workdir: /testbed
+mount_repo: false

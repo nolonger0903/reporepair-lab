@@ -1,0 +1,12 @@
+id: pylint-dev__pylint-7228
+task_file: task.md
+repo: ''
+test_command: if [ -f /opt/miniconda3/etc/profile.d/conda.sh ]; then source /opt/miniconda3/etc/profile.d/conda.sh
+  && conda activate testbed; fi && python -c "import base64,json,pytest,sys; ids=json.loads(base64.b64decode('WyJ0ZXN0cy9jb25maWcvdGVzdF9jb25maWcucHk6OnRlc3RfcmVnZXhfZXJyb3IiLCAidGVzdHMvY29uZmlnL3Rlc3RfY29uZmlnLnB5Ojp0ZXN0X2Nzdl9yZWdleF9lcnJvciIsICJ0ZXN0cy9jb25maWcvdGVzdF9jb25maWcucHk6OnRlc3RfY2FuX3JlYWRfdG9tbF9lbnZfdmFyaWFibGUiLCAidGVzdHMvY29uZmlnL3Rlc3RfY29uZmlnLnB5Ojp0ZXN0X3Vua25vd25fbWVzc2FnZV9pZCIsICJ0ZXN0cy9jb25maWcvdGVzdF9jb25maWcucHk6OnRlc3RfdW5rbm93bl9vcHRpb25fbmFtZSIsICJ0ZXN0cy9jb25maWcvdGVzdF9jb25maWcucHk6OnRlc3RfdW5rbm93bl9zaG9ydF9vcHRpb25fbmFtZSIsICJ0ZXN0cy9jb25maWcvdGVzdF9jb25maWcucHk6OnRlc3RfdW5rbm93bl9jb25maWRlbmNlIiwgInRlc3RzL2NvbmZpZy90ZXN0X2NvbmZpZy5weTo6dGVzdF9lbXB0eV9jb25maWRlbmNlIiwgInRlc3RzL2NvbmZpZy90ZXN0X2NvbmZpZy5weTo6dGVzdF91bmtub3duX3llc19ubyIsICJ0ZXN0cy9jb25maWcvdGVzdF9jb25maWcucHk6OnRlc3RfdW5rbm93bl9weV92ZXJzaW9uIiwgInRlc3RzL2NvbmZpZy90ZXN0X2NvbmZpZy5weTo6dGVzdF9zaG9ydF92ZXJib3NlIiwgInRlc3RzL2NvbmZpZy90ZXN0X2NvbmZpZy5weTo6dGVzdF9hcmd1bWVudF9zZXBhcmF0b3IiXQ==').decode());
+  sys.exit(pytest.main(['-q','-rA',*ids]))"
+setup_command: if [ -f /opt/miniconda3/etc/profile.d/conda.sh ]; then source /opt/miniconda3/etc/profile.d/conda.sh
+  && conda activate testbed; fi && git apply -v /rrl/test.patch
+image: swebench/sweb.eval.x86_64.pylint-dev_1776_pylint-7228:latest
+timeout: 900
+workdir: /testbed
+mount_repo: false

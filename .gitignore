@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+
+# Secrets / machine-local config
+.env
+.env.*
+scripts/remote_env.local.sh
+
+# Data artifacts and model outputs (see README: 数据产物不入库)
+/data/
+/outputs/
+*.safetensors
+*.bin
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

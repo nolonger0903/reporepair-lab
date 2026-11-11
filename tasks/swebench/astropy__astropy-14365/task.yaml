@@ -1,0 +1,12 @@
+id: astropy__astropy-14365
+task_file: task.md
+repo: ''
+test_command: if [ -f /opt/miniconda3/etc/profile.d/conda.sh ]; then source /opt/miniconda3/etc/profile.d/conda.sh
+  && conda activate testbed; fi && python -c "import base64,json,pytest,sys; ids=json.loads(base64.b64decode('WyJhc3Ryb3B5L2lvL2FzY2lpL3Rlc3RzL3Rlc3RfcWRwLnB5Ojp0ZXN0X3JvdW5kdHJpcFtUcnVlXSIsICJhc3Ryb3B5L2lvL2FzY2lpL3Rlc3RzL3Rlc3RfcWRwLnB5Ojp0ZXN0X2dldF90YWJsZXNfZnJvbV9xZHBfZmlsZSIsICJhc3Ryb3B5L2lvL2FzY2lpL3Rlc3RzL3Rlc3RfcWRwLnB5Ojp0ZXN0X3JvdW5kdHJpcFtGYWxzZV0iLCAiYXN0cm9weS9pby9hc2NpaS90ZXN0cy90ZXN0X3FkcC5weTo6dGVzdF9yZWFkX2V4YW1wbGUiLCAiYXN0cm9weS9pby9hc2NpaS90ZXN0cy90ZXN0X3FkcC5weTo6dGVzdF9yb3VuZHRyaXBfZXhhbXBsZSIsICJhc3Ryb3B5L2lvL2FzY2lpL3Rlc3RzL3Rlc3RfcWRwLnB5Ojp0ZXN0X3JvdW5kdHJpcF9leGFtcGxlX2NvbW1hIiwgImFzdHJvcHkvaW8vYXNjaWkvdGVzdHMvdGVzdF9xZHAucHk6OnRlc3RfcmVhZF93cml0ZV9zaW1wbGUiLCAiYXN0cm9weS9pby9hc2NpaS90ZXN0cy90ZXN0X3FkcC5weTo6dGVzdF9yZWFkX3dyaXRlX3NpbXBsZV9zcGVjaWZ5X25hbWUiLCAiYXN0cm9weS9pby9hc2NpaS90ZXN0cy90ZXN0X3FkcC5weTo6dGVzdF9nZXRfbGluZXNfZnJvbV9xZHAiXQ==').decode());
+  sys.exit(pytest.main(['-q','-rA',*ids]))"
+setup_command: if [ -f /opt/miniconda3/etc/profile.d/conda.sh ]; then source /opt/miniconda3/etc/profile.d/conda.sh
+  && conda activate testbed; fi && git apply -v /rrl/test.patch
+image: swebench/sweb.eval.x86_64.astropy_1776_astropy-14365:latest
+timeout: 900
+workdir: /testbed
+mount_repo: false

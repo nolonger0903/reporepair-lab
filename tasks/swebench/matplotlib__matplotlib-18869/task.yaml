@@ -1,0 +1,12 @@
+id: matplotlib__matplotlib-18869
+task_file: task.md
+repo: ''
+test_command: if [ -f /opt/miniconda3/etc/profile.d/conda.sh ]; then source /opt/miniconda3/etc/profile.d/conda.sh
+  && conda activate testbed; fi && python -c "import base64,json,pytest,sys; ids=json.loads(base64.b64decode('WyJsaWIvbWF0cGxvdGxpYi90ZXN0cy90ZXN0X21hdHBsb3RsaWIucHk6OnRlc3RfcGFyc2VfdG9fdmVyc2lvbl9pbmZvWzMuNS4wLXZlcnNpb25fdHVwbGUwXSIsICJsaWIvbWF0cGxvdGxpYi90ZXN0cy90ZXN0X21hdHBsb3RsaWIucHk6OnRlc3RfcGFyc2VfdG9fdmVyc2lvbl9pbmZvWzMuNS4wcmMyLXZlcnNpb25fdHVwbGUxXSIsICJsaWIvbWF0cGxvdGxpYi90ZXN0cy90ZXN0X21hdHBsb3RsaWIucHk6OnRlc3RfcGFyc2VfdG9fdmVyc2lvbl9pbmZvWzMuNS4wLmRldjgyMCtnNjc2OGVmOGM0Yy12ZXJzaW9uX3R1cGxlMl0iLCAibGliL21hdHBsb3RsaWIvdGVzdHMvdGVzdF9tYXRwbG90bGliLnB5Ojp0ZXN0X3BhcnNlX3RvX3ZlcnNpb25faW5mb1szLjUuMC5wb3N0ODIwK2c2NzY4ZWY4YzRjLXZlcnNpb25fdHVwbGUzXSIsICJsaWIvbWF0cGxvdGxpYi90ZXN0cy90ZXN0X21hdHBsb3RsaWIucHk6OnRlc3RfaW1wb3J0YWJsZV93aXRoX25vX2hvbWUiLCAibGliL21hdHBsb3RsaWIvdGVzdHMvdGVzdF9tYXRwbG90bGliLnB5Ojp0ZXN0X3VzZV9kb2Nfc3RhbmRhcmRfYmFja2VuZHMiLCAibGliL21hdHBsb3RsaWIvdGVzdHMvdGVzdF9tYXRwbG90bGliLnB5Ojp0ZXN0X2ltcG9ydGFibGVfd2l0aF9fT08iXQ==').decode());
+  sys.exit(pytest.main(['-q','-rA',*ids]))"
+setup_command: if [ -f /opt/miniconda3/etc/profile.d/conda.sh ]; then source /opt/miniconda3/etc/profile.d/conda.sh
+  && conda activate testbed; fi && git apply -v /rrl/test.patch
+image: swebench/sweb.eval.x86_64.matplotlib_1776_matplotlib-18869:latest
+timeout: 900
+workdir: /testbed
+mount_repo: false

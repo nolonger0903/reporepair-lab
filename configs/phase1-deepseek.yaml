@@ -1,0 +1,21 @@
+# Phase 1: 用 DeepSeek 跑通 mini-swe-agent
+# 用法：
+#   source ~/venvs/rrl/bin/activate
+#   mini -c mini.yaml -c /mnt/c/.../reporepair-lab/configs/phase1-deepseek.yaml -y
+
+model:
+  model_name: deepseek/deepseek-chat
+  model_kwargs:
+    drop_params: true
+    temperature: 0.0
+    max_tokens: 4096
+
+environment:
+  cwd: /mnt/c/Users/DELL/Desktop/xiao/亲手微调项目/reporepair-lab/tasks/demo-01-stats/repo
+  timeout: 60
+
+agent:
+  agent_class: default        # 无 TUI，便于脚本化运行
+  step_limit: 30
+  cost_limit: 0.3
+  output_path: /mnt/c/Users/DELL/Desktop/xiao/亲手微调项目/reporepair-lab/data/phase1-demo-01.traj.json

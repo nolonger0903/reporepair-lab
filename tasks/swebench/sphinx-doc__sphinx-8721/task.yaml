@@ -1,0 +1,12 @@
+id: sphinx-doc__sphinx-8721
+task_file: task.md
+repo: ''
+test_command: if [ -f /opt/miniconda3/etc/profile.d/conda.sh ]; then source /opt/miniconda3/etc/profile.d/conda.sh
+  && conda activate testbed; fi && python -c "import base64,json,pytest,sys; ids=json.loads(base64.b64decode('WyJ0ZXN0cy90ZXN0X2V4dF92aWV3Y29kZS5weTo6dGVzdF92aWV3Y29kZV9lcHViX2RlZmF1bHQiLCAidGVzdHMvdGVzdF9leHRfdmlld2NvZGUucHk6OnRlc3Rfdmlld2NvZGVfZXB1Yl9lbmFibGVkIiwgInRlc3RzL3Rlc3RfZXh0X3ZpZXdjb2RlLnB5Ojp0ZXN0X2xpbmtjb2RlIiwgInRlc3RzL3Rlc3RfZXh0X3ZpZXdjb2RlLnB5Ojp0ZXN0X2xvY2FsX3NvdXJjZV9maWxlcyJd').decode());
+  sys.exit(pytest.main(['-q','-rA',*ids]))"
+setup_command: if [ -f /opt/miniconda3/etc/profile.d/conda.sh ]; then source /opt/miniconda3/etc/profile.d/conda.sh
+  && conda activate testbed; fi && git apply -v /rrl/test.patch
+image: swebench/sweb.eval.x86_64.sphinx-doc_1776_sphinx-8721:latest
+timeout: 900
+workdir: /testbed
+mount_repo: false

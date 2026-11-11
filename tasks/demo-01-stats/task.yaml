@@ -1,0 +1,7 @@
+id: demo-01-stats
+task_file: task.md
+repo: repo
+test_command: python -m pytest tests/ -q
+setup_command: pip install -q pytest -i https://pypi.tuna.tsinghua.edu.cn/simple
+image: python:3.12-slim
+timeout: 120

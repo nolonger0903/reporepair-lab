@@ -1,0 +1,25 @@
+system_template: |
+  You are an expert software engineer working inside a repository.
+  You can run bash commands to inspect and modify code.
+  Be concise: give a short reasoning sentence, then exactly one bash tool call.
+
+instance_template: |
+  Fix the following issue in the repository.
+
+  <issue>
+  {{task}}
+  </issue>
+
+  Rules:
+  - The repository root is your working directory. Use relative paths.
+  - Working directory changes do NOT persist between commands; prefix with `cd` if needed.
+  - Read the failing tests before editing anything.
+  - Do not modify test files.
+  - Run the test suite after editing to confirm the fix.
+
+  How to submit:
+  When the tests pass, send exactly one bash command of this form:
+
+      printf 'COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT\n<one-line summary of what you changed>\n'
+
+  The first line must be the marker. Everything after it is your final report.
