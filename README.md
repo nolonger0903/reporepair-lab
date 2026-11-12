@@ -6,37 +6,12 @@
 
 ---
 
-## 四层架构
+## 架构
 
-```
-┌──────────────────────────────────────────────────────────┐
-│ 1. 文件层：Windows 磁盘                                   │
-│    C:\Users\DELL\Desktop\xiao\亲手微调项目                │
-│    你编辑、查看代码的地方                                 │
-└──────────────────────┬───────────────────────────────────┘
-                       │ WSL 挂载为 /mnt/c/...
-                       ▼
-┌──────────────────────────────────────────────────────────┐
-│ 2. 我们的执行层：WSL2 Ubuntu (~/venvs/rrl)                │
-│    LoopAgent 主循环、调用 DeepSeek、解析轨迹、算 reward   │
-└──────────────────────┬───────────────────────────────────┘
-                       │ env.execute({"command": ...})
-                       ▼
-┌──────────────────────────────────────────────────────────┐
-│ 3. Agent 命令层：Docker 容器                              │
-│    模型生成的 bash、测试套件都在这里跑（隔离、可复现）    │
-└──────────────────────┬───────────────────────────────────┘
-                       │ Phase 4 起
-                       ▼
-┌──────────────────────────────────────────────────────────┐
-│ 4. 训练层：A10 服务器                                     │
-└──────────────────────────────────────────────────────────┘
-```
-
-为什么每层都存在：
-
-- **WSL**：模型生成的是 Linux 命令（`sed -i`、heredoc、`nl -ba`），Windows 上跑不了；训练栈也只支持 Linux；生产环境是 Linux 服务器。
-- **Docker**：Agent 会执行任意生成的命令——隔离保护 API Key 和本机文件；SWE-bench 各仓库依赖冲突，必须一镜像一任务；同一镜像保证评测可复现。
+- **Harness**：控制 Agent 循环，执行模型生成的命令，回填观测，记录完整轨迹。
+- **隔离执行**：Agent 容器不挂载任务目录，看不到标准答案；判分在全新容器里应用 Agent patch 和官方测试补丁。
+- **后训练**：成功轨迹清洗成 chat 格式，用 QLoRA 微调 Qwen2.5-Coder-7B。
+- **评测**：同一套 Harness 和判分流程，对比 Base / SFT / RL 的通过率、步数、成本。
 
 ---
 
@@ -51,30 +26,28 @@ reporepair-lab/
 │   │   ├── environment.py  # local / docker 双后端
 │   │   ├── reward.py       # 跑测试 → 可验证 reward
 │   │   └── trajectory.py   # 回放 + 差异比对
-│   ├── tasks/          # SWE-bench 实例、过滤/去重/切分/采样
+│   ├── tasks/          # SWE-bench 实例解析、过滤/去重/切分
 │   ├── data/           # 轨迹清洗与 SFT 导出
-│   ├── reward/         # （Phase 5）
-│   ├── train/          # （Phase 4）
-│   ├── eval/           # （Phase 6）
 │   └── cli.py          # rrl-run run / replay
 ├── configs/            # 提示词与运行配置
-├── tasks/              # 任务集
-│   ├── demo-01-stats/      # 自建演示任务（git 基线可 diff）
-│   └── swebench/           # 30 条从 SWE-bench Lite 物化
-├── scripts/            # 数据获取、任务集构建、验证、清洗
-├── data/               # 数据产物（不入库）
+├── tasks/              # 任务集（demo + SWE-bench 物化任务）
+├── scripts/            # 采集、任务集构建、验证、清洗、训练、评测
 ├── tests/              # 单元测试
-└── notes/              # 实验与源码笔记
+└── notes/              # 实验记录与交接文档
 ```
+
+`data/` 和 `outputs/` 是运行产物，不入库。
 
 ---
 
 ## 快速开始
 
 ```bash
-# WSL 内
-source ~/venvs/rrl/bin/activate
-cd /mnt/c/Users/DELL/Desktop/xiao/亲手微调项目/reporepair-lab
+# Linux / WSL（Docker 后端需先启动 Docker）
+git clone https://github.com/nolonger0903/reporepair-lab.git
+cd reporepair-lab
+python -m venv .venv && source .venv/bin/activate
+pip install -e .
 
 # 克隆后首次运行 demo 任务前，先恢复其 git 基线（嵌套 .git 不入库）
 bash tasks/demo-01-stats/setup.sh
@@ -94,12 +67,13 @@ rrl-run replay --task tasks/demo-01-stats --trajectory data/demo.traj.json
 python scripts/clean_trajectories.py data/*.traj.json --out data/clean/sft.jsonl
 ```
 
-任务集构建：
+任务集构建与采集：
 
 ```bash
 python scripts/fetch_swebench.py                  # 下载 SWE-bench Lite
 python scripts/build_taskset.py --n 30 --seed 0   # 过滤→去重→切分→采样→物化
 python scripts/verify_taskset.py                  # 独立验证（需 Docker）
+python scripts/collect.py                         # 双容器采集轨迹
 ```
 
 ---
@@ -109,20 +83,22 @@ python scripts/verify_taskset.py                  # 独立验证（需 Docker）
 | Phase | 内容 | 状态 |
 |---|---|---|
 | 1 | 跑通 mini-swe-agent，读懂轨迹格式 | ✅ |
-| 2 | 自研 Harness：local + docker、验证内嵌、回放 | ✅ |
-| 3 | 任务集 + 数据清洗 + 独立验证 + 轨迹采集 | 🟡 试点 12 条通过，待全量 52 条 |
-| 4 | LoRA SFT（Qwen-Coder / TRL） | ⬜ |
-| 5 | 可验证 Reward + GRPO + 多轮 rollout | ⬜ |
-| 6 | Base / SFT / RL 统一评测 | ⬜ |
+| 2 | 自研 Harness：local + docker、验证、回放 | ✅ |
+| 3 | 任务集 + 独立验证 + 轨迹采集 | ✅ 52 条训练任务中 45 条可用，135 条轨迹，通过率 36% |
+| 4 | QLoRA SFT（Qwen2.5-Coder-7B） | ✅ 30 步，eval_loss 0.407 |
+| 5 | 可验证 Reward + GRPO | ⬜ 下一步 |
+| 6 | Base / SFT / RL 统一评测 | 🟡 首轮 Base / SFT 评测完成（均 0/20，链路已验证） |
 
-> 详细的当前状态、环境路径、已知陷阱与后续步骤见 **[notes/HANDOFF.md](notes/HANDOFF.md)**。
+> 第一轮结论：链路通了，能力还没出来。Base 平均 0.9 步（直接交空补丁），SFT 平均 24 步（学会了连续调工具，但不会编辑文件）。问题在训练量，不在系统。
+>
+> 详细的当前状态、已知陷阱与后续步骤见 **[notes/HANDOFF.md](notes/HANDOFF.md)**。
 
 ---
 
 ## 设计要点
 
 1. **不 fork 上游**。`minisweagent.Model` 和 `Environment` 通过 Protocol 接入，上游升级不影响我们。
-2. **验证内嵌**。`--verify-every N` 在循环内跑测试，记录"第几步开始通过"，这是轨迹质量分析的核心信号。
+2. **验证可内嵌**。`--verify-every N` 在循环内跑测试，记录"第几步开始通过"；正式采集的最终判分放在独立容器里，保证 Agent 无法污染评测。
 3. **结构化提交**。`printf 'COMPLETE_TASK_AND_SUBMIT_FINAL_OUTPUT\n<摘要>'`，解决上游 submission 为空的问题。
 4. **仓库级切分**。训练集和评测集不共享任何仓库，杜绝泄漏。
 5. **SFT 导出剥离脚手架**。`extra` 字段和 `exit` 消息不进入训练数据。
